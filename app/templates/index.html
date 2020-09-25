@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Inicio
+{% endblock%}
+
+{% block main_block %}
+
+<div class="search">
+    <h1>MEMO VIDEO</h1>
+    <hr>
+    <p>Bienvenido a Memo, tu plataforma de contenido audiovisual de confianza</p>
+    <br/>
+    <form action="" method="POST">
+        <label class="hidden" for="busqueda">busqueda</label>
+        <input name="busqueda" id="busqueda" placeholder="Buscar pelicula..." type="text">
+        <input type="submit" id="send-signup" name="signup" value="Buscar" />
+    </form>
+    <br/><br/>
+    <ul class="filtro">
+        <li><a href="#">Filtrar por Categorias</a>
+            <ul class="categorias">
+                {% if categories%}
+                    {% for category in categories%}
+                        <li><a href="?filter={{category.replace(' ', '_')}}">{{ category }}</a></li>
+                    {%endfor%}
+                {%else%}
+                    <li>None</li>
+            </ul>
+        {% endif %}
+
+        </li>
+    </ul>
+</div>
+
+<div class="catalogo">
+    <h1>Catálogo Actual</h1>
+    {% if catalogo %}
+        {% for pelicula in catalogo %}
+                <figure>
+                    <a href="{{ url_for('detalles_pelicula', film=pelicula.titulo.replace(' ', '_')) }}">
+                    <img alt="{{ pelicula.titulo }}"
+                         class="film"
+                         src="{{ url_for('static', filename='img/'+pelicula.poster) }}">
+                </a>
+                <figcaption>{{ pelicula.titulo }}</figcaption>
+            </figure>
+        {%endfor%}
+    {%else%}
+        <strong>No hay películas en el catálogo</strong>
+    {%endif%}
+
+</div>
+
+{% endblock%}
